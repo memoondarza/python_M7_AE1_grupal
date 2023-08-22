@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'assets/estilos/estilos.css' %} ">
+    <title>Tarea M7_AE1_grupal</title>
+
+</head>
+<body >
+  {% load crispy_forms_tags %}
+   <header class="container">
+    <nav class="navbar navbar-expand-lg navbar bg-primary fixed-top" data-bs-theme="dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'index' %}">Bienvenidos</a>       
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav ml-auto"> 
+
+            <li class="dropdown">                      
+                <a class="nav-link dropdown-toggle" href="#" role="button" type="button"  data-bs-toggle="dropdown" aria-expanded="false">
+                  <spam style="color: rgb(250, 250, 250);"><strong>Administración Clientes</strong></spam>
+                </a>
+                  <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a class="dropdown-item" href="{% url 'administra_clientes' %}">Administra clientes</a></li>
+                    <li><a class="dropdown-item" href="{% url 'registro_clientes' %}">Registra clientes</a></li>
+                  </ul>
+            </li>     
+
+            <li class="dropdown">                      
+                <a class="nav-link dropdown-toggle" href="#" role="button" type="button"  data-bs-toggle="dropdown" aria-expanded="false">
+                  <spam style="color: rgb(250, 250, 250);"><strong>Administración Productos</strong></spam>
+                </a>
+                  <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a class="dropdown-item" href="{% url 'administra_productos' %}">Administra productos</a></li>
+                    <li><a class="dropdown-item" href="{% url 'registro_productos' %}">Registra productos</a></li>
+                  </ul>
+            </li>     
+
+            
+            <li class="dropdown">                      
+                <a class="nav-link dropdown-toggle" href="#" role="button" type="button"  data-bs-toggle="dropdown" aria-expanded="false">
+                  <spam style="color: rgb(250, 250, 250);"><strong>Administración Pedidos</strong></spam>
+                </a>
+                  <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a class="dropdown-item" href="{% url 'administra_pedidos' %}">Administra pedidos</a></li>
+                    <li><a class="dropdown-item" href="{% url 'registro_pedidos' %}">Registra pedidos</a></li>                   
+                  </ul>
+            </li>    
+            
+            <li class="dropdown">                      
+                <a class="nav-link dropdown-toggle" href="#" role="button" type="button"  data-bs-toggle="dropdown" aria-expanded="false">
+                  <spam style="color: rgb(250, 250, 250);"><strong>Detalle Pedidos</strong></spam>
+                </a>
+                  <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a class="dropdown-item" href="{% url 'administra_detalle' %}">Administra detalle</a></li>
+                    <li><a class="dropdown-item" href="{% url 'registro_detalle' %}">Registra detalle</a></li>                   
+                  </ul>
+            </li>    
+
+            {% if user.is_authenticated %}
+            <li class="nav-link"><a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a></li>
+            <li class="nav-link"><a class="nav-link" href="#">Usuario activo: @{{ user.username}}</a></li>
+            {% else %}
+            <li class="nav-link"><a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a></li>
+            <li class="nav-link"><a class="nav-link" href="{% url 'registro' %}">Registro usuarios</a></li>
+            {% endif %}      
+          </ul>   
+      </div>
+    </div>
+    </nav>
+  </header> 
+
+   <main>
+    <br><br>
+    <!-- Carrusel -->
+    <section class="container">
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner ">
+              <div class="carousel-item active">
+                <img id="centrado" src="{% static 'assets/imagenes/Zapatilla Adidas Supernova.jpg' %}"  width="600px" alt="..." >
+              </div>
+              <div class="carousel-item">
+                <img id="centrado" src="{% static 'assets/imagenes/Polera Emitares Rojo.png' %}"  width="600px" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img id="centrado" src="{% static 'assets/imagenes/Bicicleta Estática Max.jpg' %}" width="600px" alt="...">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+    </section>
+   </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+
+  </body>
+
+  <br>
+  <div class="container">
+  <footer >
+    <div>
+      <p id="pie">
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=[url]"><img id="pie-img" src="{% static 'assets/imagenes/linkedin_socialnetwork_17441.png' %}" alt="Linkedin">Linkedin</a>
+        <a href="https://twitter.com/intent/tweet?text=[text]&url=[url]&hashtags=[hashtag]"><img id="pie-img" src="{% static 'assets/imagenes/twiter.png' %}">Twitter</a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://espai.es"><img id="pie-img" src="{% static 'assets/imagenes/facebook_logo_icon_229298.png' %}" alt="Facebook">Facebook</a>
+      </p>
+
+      <p>Copyright &copy; 2023 - Desarrollos Informáticos SA</p>
+      <p>Grupo 6: Sara Corvalán, Romina Velasco, Guillermo Ondarza</p>
+    </div>
+    
+  </footer>
+</div>
+</html>

@@ -1,0 +1,150 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+   
+   <link rel="stylesheet" href="{% static 'assets/estilos/estilos.css' %}" />
+    <title>Tarea M7_AE1_grupal</title>
+  </head>
+
+  <body >
+  {% load crispy_forms_tags %}
+   <div class="container">
+     <header>
+      <nav class="navbar navbar-expand-lg navbar bg-primary fixed-top" data-bs-theme="dark">
+        <a class="navbar-brand" href="{% url 'index' %}">Bienvenidos</a>
+        
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+           
+            <li class="dropdown">                      
+                <a class="nav-link dropdown-toggle" href="#" role="button" type="button"  data-bs-toggle="dropdown" aria-expanded="false">
+                  <spam style="color: rgb(250, 250, 250);"><strong>Administración de pedidos</strong></spam>
+                </a>
+                  <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a class="dropdown-item" href="{% url 'administra_pedidos' %}">Administra pedidos</a></li>
+                    <li><a class="dropdown-item" href="{% url 'registro_pedidos' %}">Registro de pedidos</a></li>
+                  </ul>
+            </li>                  
+
+            {% if user.is_authenticated %}        
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}"><strong>Cerrar sesión</strong></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" style="color:#FF0000";><strong>Usuario activo: @{{ user.username}}</strong></a>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}"><strong>Iniciar sesión</strong></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'registro' %}" style="color:#eb7d15;"><strong>Registro usuarios</strong></a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </nav>
+     </header>
+    </div>
+
+  
+    <div class="container" id="contenidoTabla">
+      <br>
+      <h3>Administración de pedidos</h3>
+      <br>     
+      <table class="table-secondary table-bordered border-primary bg-white">
+          <thead>
+            <tr >
+              <th scope="col">Id pedido</th>
+              <th scope="col">Id cliente</th>
+              <th scope="col">Fecha pedido</th>
+              <th scope="col">Fecha entrega</th>
+              <th scope="col">Estado </th>
+              <th scope="col">Forma de pago</th>
+              <th scope="col">Editar</th>
+              <th scope="col">Eliminar</th>
+              <th scope="col"><small>Cambia Estado</small></th>
+              <th scope="col"><small>Cambia Estado</small></th>
+              <th scope="col"><small>Cambia Estado</small></th>
+              <th scope="col"><small>Cambia Estado</small></th>
+            </tr>
+          </thead>
+          {% for p in pedidos %}    
+          <tbody class="pedidos">                                                                      
+              <tr>
+                <td><small>{{p.id_pedido}}</small></td>
+                <td><small>{{p.id_cliente}}</small></td>
+                <td><small>{{p.fecha_pedido}}</small></td>
+                <td><small>{{p.fecha_entrega}}</small></td>
+                 {% if p.estado_pedido == '1' %}
+                    <td><small>Pendiente</small></td>
+                      {% elif p.estado_pedido == '2' %}
+                        <td><small>En preparación</small></td>
+                      {% elif p.estado_pedido == '3' %}
+                        <td><small>En despacho</small></td>
+                        {% else %}
+                         <td><small>Entregado</small></td>
+                   {% endif %}
+                
+                  {% if p.forma_pago == '1' %}
+                  <td><small>Contado, T.Debito</small></td>
+                    {% elif p.forma_pago == '2' %}
+                      <td><small>Por T.Crédito 1 cuota</small></td>
+                    {% elif p.forma_pago == '3' %}
+                      <td><small>Por T.Crédito 3 cuotas</small></td>
+                    {% elif p.forma_pago == '4' %}
+                      <td><small>Por T.Crédito 6 cuotas</small></td>
+                    {% elif p.forma_pago == '5' %}
+                      <td><small>Por T.Crédito 12 cuotas</small></td>
+                      {% else %}
+                        <td><small>Por T.Crédito 24 cuotas</small></td>
+                  {% endif %}
+                <td> <a name="" id="{p.id_pedido}" class="btn btn-info btn-lg active btn-sm" href="{% url 'modifica_pedidos' p.id_pedido %}" role="button" type="button">Editar</a></td>
+                <td> <a name="" id="{p.id_pedido}" class="btn btn-danger btn-lg active btn-sm" href="{% url 'elimina_pedidos' p.id_pedido %}" role="button" type="button">Eliminar</a></td> 
+
+                <td> <a name="" id="{p.id_pedido}" class="btn btn-success btn-lg active btn-sm" href="{% url 'cambiaEstado_pedidos1' p.id_pedido %}" role="button" type="button">pendiente</a> 
+                            <spam name="" id=""  href="{% url 'contactar1' p.id_cliente p.id_pedido %}" type=""></spam></td>              
+
+                <td> <a name="" id="{p.id_pedido}" class="btn btn-success btn-lg active btn-sm" href="{% url 'cambiaEstado_pedidos2' p.id_pedido %}" role="button" type="button">preparación</a>
+                            <spam name="" id=""  href="{% url 'contactar2' p.id_cliente  p.id_pedido %}" type=""></spam></td>
+
+                <td> <a name="" id="{p.id_pedido}" class="btn btn-success btn-lg active btn-sm" href="{% url 'cambiaEstado_pedidos3' p.id_pedido %}" role="button" type="button">despacho</a>
+                            <spam name="" id=""  href="{% url 'contactar3' p.id_cliente  p.id_pedido %}" type=""></spam></td>
+
+                <td> <a name="" id="{p.id_pedido}" class="btn btn-success btn-lg active btn-sm" href="{% url 'cambiaEstado_pedidos4' p.id_pedido %}" role="button" type="button">entregado</a> 
+                            <spam name="" id=""  href="{% url 'contactar4' p.id_cliente p.id_pedido %}" type=""></spam></td>                                                                                  
+          </tbody>
+          {% endfor %}      
+      </table>        
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+
+  </body>
+
+  <br>
+  <div class="container">
+  <footer >
+    <div>
+      <p id="pie">
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=[url]"><img id="pie-img" src="{% static 'assets/imagenes/linkedin_socialnetwork_17441.png' %}" alt="Linkedin">Linkedin</a>
+        <a href="https://twitter.com/intent/tweet?text=[text]&url=[url]&hashtags=[hashtag]"><img id="pie-img" src="{% static 'assets/imagenes/twiter.png' %}" alt="Twitter">Twitter</a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://espai.es"><img id="pie-img" src="{% static 'assets/imagenes/facebook_logo_icon_229298.png' %}" alt="Facebook">Facebook</a>
+      </p>
+
+      <p>Copyright &copy; 2023 - Desarrollos Informáticos SA</p>
+      <p>Grupo 6: Sara Corvalán, Romina Velasco, Guillermo Ondarza</p>
+    </div>
+  </footer>
+</div>
+</html>
